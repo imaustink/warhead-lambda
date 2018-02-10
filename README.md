@@ -1,4 +1,6 @@
 # warhead-lambda
+[![Build Status](https://travis-ci.org/imaustink/warhead-lambda.svg?branch=master)](https://travis-ci.org/imaustink/warhead-lambda)
+[![Coverage Status](https://coveralls.io/repos/github/imaustink/warhead-lambda/badge.svg?branch=master)](https://coveralls.io/github/imaustink/warhead-lambda?branch=master)
 
 Warhead uses adapters to provide an abstraction layer with a unified interface atop any given platform.
 
