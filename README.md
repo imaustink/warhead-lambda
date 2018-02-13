@@ -11,7 +11,7 @@ Warhead uses adapters to provide an abstraction layer with a unified interface a
 A Warhead adapter for AWS Lambda functions.
 
 ```js
-const {adapter} = require('warhead-lambda')
+const { adapter } = require('warhead-lambda')
 exports.handler = adapter(function(request, context){
 	// Do things
 	// Return value or Promise
@@ -47,7 +47,7 @@ __Arguments:__
 If an object is provided, it will automatically be stringified. New instances default to a response code of `200` and a `content-type` header of `application/json`.
 
 ```js
-const {adapter, Response} = require('warhead-lambda')
+const { adapter, Response } = require('warhead-lambda')
 
 exports.handler = adapter(function(request){
 	return new Response({message: 'Hello World!'})
@@ -58,7 +58,7 @@ exports.handler = adapter(function(request){
 
 Set or get status code of a response.
 ```js
-const {Response} = require('warhead-lambda')
+const { Response } = require('warhead-lambda')
 const response = new Response({message: 'Hello World!'})
 response.status(200)
 ```
@@ -67,7 +67,7 @@ response.status(200)
 
 Set or get a header of a response.
 ```js
-const {Response} = require('warhead-lambda')
+const { Response } = require('warhead-lambda')
 const response = new Response({message: 'Hello World!'})
 response.header('foo', 'bar')
 ```
@@ -81,19 +81,22 @@ Helpers for testing functions written with the `warhead-lambda` adapter.
 A harness for testing a lambda function.
 
 ```js
-const {adapter, Response} = require('warhead-lambda')
-const {harness} = require('warhead-lambda/test-helpers')
-const request = {
-	body: {foo: 'bar'},
-	query: {baz: 'qux'}
-}
+import test from 'ava'
+import { adapter, Response } 'warhead-lambda'
+import { harness } 'warhead-lambda/test-helpers'
 
-const handler = adapter(function(request){
-	return new Response(Object.assign(request.body, request.query))
+const request = {
+	body: {foo: 'bar'}
+}
+const handler = adapter(request => {
+	return new Response({message: request.body.foo})
 })
 
-harness(handler, request)
-	.then(result => {
-		// Run assertions
-	})
+test(t => {
+	return harness(handler, request)
+		.then(result => {
+			t.true(result instanceof Response)
+			t.is('bar', result.body.message)
+		})
+})
 ```
